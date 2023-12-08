@@ -1,0 +1,201 @@
+body {
+    background-color: rgb(208, 207, 248); 
+    /* background-color: rgb(223, 238, 215);  */
+}
+
+#fixArea {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    min-width: 600px;
+    background-color: #03172a; 
+    z-index: 10; 
+    color: #ffffff; 
+    /* color: rgb(17, 16, 16);  */
+    /* background-image: url(DSC_0005.JPG); */
+}
+
+#activeArea {
+    margin-top: 140px; 
+    font-size: 18px;
+    font-weight: 500;
+    overflow-wrap: break-word; 
+    z-index: 1;
+}
+
+#indexArea {
+    margin-top: 280px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    z-index: 1;
+}
+
+.buttonURL {
+    padding: 5px;
+    cursor: pointer;
+    width: 90px;
+    margin-top: 4px;
+    margin-left: 4px;
+    background-color: #a33ce7;
+    /* background-color: #2b36cf; */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    z-index: 1;
+}
+
+.buttonURL:hover {
+    color: #03172a;
+    font-weight: bold;
+}
+
+.buttonIndex {
+    margin: 5px;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 110%;
+    cursor: pointer;
+    background-color: #4cacaf;
+    /* background-color: #4cacaf; */
+    color: white;
+    border: none;
+    border-radius: 4px;
+    z-index: 1;
+}
+
+.buttonIndex:hover {
+    color: #03172a;
+}
+
+#buttonClear{
+    margin-left: 4px;
+    margin-bottom: 4px;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    cursor: pointer;
+    background-color: #a33ce7;
+    /* background-color: #2b36cf; */
+    color: white;
+    border-radius: 4px;
+    z-index: 1;
+}
+
+#buttonClear:hover {
+    color: #03172a;
+    font-weight: bold;
+}
+
+.buttonQuiz {
+    margin: 5px;
+    height: 50px;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-size: 18px;
+    font-weight: 525;
+    cursor: pointer;
+    background-color: #4cacaf;
+    color: white;
+    border: 1mm ridge  #357376;
+    border-radius: 4px;
+    z-index: 1;
+    display: none;
+}
+
+.buttonQuiz:hover {
+    color: #03172a;
+    font-weight: bolder;
+}
+
+.buttonAction {
+    margin: 0px;
+    left: 0;
+    padding: 5px;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 110%;
+    font-weight: 550;
+    cursor: pointer;
+    background-color: rgb(228, 247, 213);
+    /* background-color: rgb(119, 236, 108); */
+    color: black;
+    border: double rgb(36, 96, 57);
+    border-radius: 4px;
+    z-index: 1;
+}
+
+.buttonAction:hover {
+    font-weight: lighter;
+    color: rgb(40, 40, 245);
+}
+
+#buttonEnd{
+    float: right;
+    display: none;
+}
+
+.buttonAction:hover {
+    font-weight: bold;
+}
+
+
+#imgBackground{
+    position: absolute;
+    /* width: 210; */
+    top: 4px;
+    right: 6px;
+    z-index: 1;
+    border-radius: 25% 15% / 15% 35%;
+}
+
+#imgPC{
+    position: absolute;
+    width: 100;
+    top: 15px;
+    right: 27px;
+    z-index: 2;
+}
+
+#imgOmikuji{
+    position: absolute;
+    width: 80;
+    top: 25px;
+    right: 137px;
+    display: none;
+    z-index: 2;
+}
+
+
+h1 {
+    margin-left: 10px;
+}
+
+.content {
+    padding: 10px;
+    margin: 0px;
+    margin-bottom: 10px;
+    margin-left: 50px;
+    margin-right: 100px;
+    font-size: 18px;
+    font-weight: 750;
+    /* background-image: url(背景2.PNG); */
+    color: white
+    /* color: rgb(29, 28, 28); */
+}
+
+
+input {
+    font-size: 130%;
+    padding: 5px;
+}
+
+
+#scoreSymbol{
+    font-weight: bold;
+    font-size: large;
+}
+

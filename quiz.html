@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="theme-color" content="#000000">
+    <link rel="stylesheet" type="text/css" href="style.css"/> 
+</head>
+
+<body>
+    <div id="fixArea">
+        <nav>
+            <button class= "buttonURL" onclick="window.location.href='list.html'">リスト</button>
+            <button class= "buttonURL" onclick="window.location.href='index.html'">インデックス</button>
+            <button class= "buttonURL" onclick="window.location.href='search.html'">検索</button>
+            <button class= "buttonURL" onclick="window.location.href='quiz.html'">クイズ</button>
+        </nav>
+        <h1>Ai Glossary Quiz</h1>
+        <img id="imgOmikuji" src="omikuji_daikichi.png" width="40">
+        <img id="imgPC" src="character_program.png" width="100">
+        <img id="imgBackground" src="bg_moon_getsumen_earth.jpg" width="210">
+    </div>
+
+    <div id="activeArea">
+        <input id= "inputNum" type="number">
+        <h3 id="quizCount"></h3>
+        <h3 id="score"></h3>
+        <h3 id="scoreSymbol"></h3>
+        <h3 id="quiz"></h3>
+        <section id="buttonQuizAll">
+            <button class="buttonQuiz" id="button1" onclick="button1()"></button>
+            <button class="buttonQuiz" id="button2" onclick="button2()"></button>
+            <button class="buttonQuiz" id="button3" onclick="button3()"></button>
+        </section>
+        <h3 id="quizResult1"></h3>
+        <h3 id="quizResult2"></h3>
+        <h3 id="quizResult3"></h3>
+        <button class="buttonAction" id="buttonNext" onclick="buttonNext()">問題数入力</button>
+        <button class="buttonAction" id="buttonEnd" onclick="buttonEnd()">終了</button>
+    </div>
+</body>
+<script type="text/javascript" src="Ai.js"></script>
+<script type="text/javascript" src="imgEvent.js"></script>
+<script type="text/javascript" src="quiz.js"></script>
+</html>
