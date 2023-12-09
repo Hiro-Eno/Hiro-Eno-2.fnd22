@@ -272,7 +272,7 @@ function selectQuizKeys(array, num) {
 function quizReport(){
     displayQuizResult1("クイズお疲れさまでした。");
     if(wrongQuizzes.length === 0) {
-        displayQuizResult2(`全出題 ${quizNum}  問回答終了！！！ 出題問題は下記の通りです。`); 
+        displayQuizResult2(`全出題 ${quizNum}  問回答終了!!! 出題問題は下記の通りです。`); 
         displayQuizResult3(`出題問題: ${quizKeysCopy}`); 
         checkEnd = true;
         changeImg("complete");
