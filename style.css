@@ -72,6 +72,7 @@ body {
         padding-right: 10px;
         background-color: #a33ce7;
         color: white;
+        border: none;
         border-radius: 4px;
         z-index: 1;
     }
@@ -99,7 +100,7 @@ body {
 
     .buttonQuiz:hover {
         color: #03172a;
-        font-weight: bolder;
+        font-weight: 500;
     }
 
     .buttonAction {
@@ -158,14 +159,22 @@ body {
         z-index: 2;
     }
 
-
     h1 {
         margin-left: 10px;
     }
 
+    ul {
+        padding-left: 22px;
+        padding-right: 5px;
+    }
+
+    li {
+        margin-bottom: 18px;
+    }
+
     .content {
         padding: 10px;
-        margin: 0px;
+        margin: 1px;
         margin-bottom: 10px;
         margin-left: 50px;
         margin-right: 100px;
@@ -195,7 +204,7 @@ body {
         left: 0;
         width: 100%;
         /* min-width: 250px; */
-        font-size: 10px;
+        font-size: 12px;
         background-color: #03172a; 
         z-index: 10; 
         color: #ffffff; 
@@ -203,7 +212,7 @@ body {
 
     #activeArea {
         margin-top: 70px; 
-        font-size: 10px;
+        font-size: 12px;
         overflow-wrap: break-word; 
         z-index: 1;
     }
@@ -221,7 +230,7 @@ body {
         width: auto;
         margin-top: 2px;
         margin-left: 2px;
-        font-size: 10px;
+        font-size: 12px;
         background-color: #a33ce7;
         color: white;
         border: none;
@@ -239,7 +248,7 @@ body {
         padding: 2px;
         padding-left: 2px;
         padding-right: 2px;
-        font-size: 10px;
+        font-size: 12px;
         background-color: #4cacaf;
         color: white;
         border: none;
@@ -257,7 +266,7 @@ body {
         padding: 2px;
         padding-left: 10px;
         padding-right: 10px;
-        font-size: 10px;
+        font-size: 12px;
         background-color: #a33ce7;
         color: white;
         border-radius: 2px;
@@ -275,7 +284,7 @@ body {
         padding: 2px;
         padding-left: 2px;
         padding-right: 2px;
-        font-size: 10px;
+        font-size: 12px;
         background-color: #4cacaf;
         color: white;
         border: 1mm ridge  #357376;
@@ -286,7 +295,7 @@ body {
 
     .buttonQuiz:hover {
         color: #03172a;
-        font-weight: bolder;
+        font-weight: 500;
     }
 
     .buttonAction {
@@ -295,7 +304,7 @@ body {
         padding: 2px;
         padding-left: 5px;
         padding-right: 5px;
-        font-size: 10px;
+        font-size: 12px;
         background-color: rgb(228, 247, 213);
         color: black;
         border: double rgb(36, 96, 57);
@@ -347,8 +356,16 @@ body {
 
     h1 {
         margin-left: 5px;
-        /* max-width: 140px; */
         font-size: small;
+    }
+
+    ul {
+        padding-left: 22px;
+        padding-right: 5px;
+    }
+
+    li {
+        margin-bottom: 3px;
     }
 
     .content {
@@ -357,13 +374,13 @@ body {
         margin-bottom: 2px;
         margin-left: 10px;
         margin-right: 10px;
-        font-size: 10px;
+        font-size: 12px;
         color: white
     }
 
 
     input {
-        font-size: 10px;
+        font-size: 12px;
         padding: 5px;
     }
 
