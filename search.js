@@ -34,7 +34,7 @@ function getWord() {
     if (Object.keys(object).length > 0){
         displayObject(object);
     }
-    document.getElementById("searchResult").style.display = "inline";
+    // document.getElementById("searchResult").style.display = "inline";
 }
 
 /**
@@ -43,7 +43,7 @@ function getWord() {
  * @returns {} 検索ワードと検索数を表示
  */
 function addDisplay(word, num) {
-    const content = document.getElementsByTagName("h4");
+    const content = document.getElementsByTagName("h3");
     content[0].innerText = `検索ワード:\t${word}`
     content[1].innerText = `ヒット数:\t${num} 件`
 }
@@ -53,14 +53,14 @@ function addDisplay(word, num) {
  * @returns {} 検索された用語集の単語(key)と内容(value)を表示
  */
 function displayObject(object) {
-    for (let key in object) {
-        const activeArea = document.getElementById("activeArea");
-        let newElement = document.createElement("ul"); 
-        newElement.innerHTML = "<li><strong>" + key + ":</strong>\t" + object[key] + "</li>";
-        newElement.className = "add";
-        activeArea.appendChild(newElement);
+    const newUl = document.createElement("ul"); 
 
-        omikujiRatio = 0.3;
-        addEvent(newElement, 0.25);
+    for (let key in object) {
+        let newElement = document.createElement("li");
+        newElement.innerHTML = "<strong>" + key + ":</strong>\t" + object[key];
+        newElement.className = "add";
+        newUl.appendChild(newElement);
+        addEvent(newElement, 0.2);
     }
+    activeArea.appendChild(newUl);
 }
