@@ -3,6 +3,7 @@
 let imgState = false;
 let eventRatio = 0.2;
 let mouseCount = 0;
+
 let omikujiState = false;
 let omikujiRatio = 0.3;
 let omikujiUpDown = 1;
@@ -70,7 +71,7 @@ function baseImg(){
 }
 
 /**
- * @returns {} 要素からクリックした時にimgを変更 
+ * @returns {} 要素をクリックした時にimgを変更 
  */
 function changeImg (){
     if(imgState && omikujiState){
