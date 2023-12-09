@@ -172,9 +172,18 @@ body {
         margin-bottom: 18px;
     }
 
-    .content {
+    #select {
         padding: 10px;
         margin: 1px;
+        margin-left: 50px;
+        margin-right: 100px;
+        font-size: 18px;
+        font-weight: 750;
+        color: white
+    }
+
+    #content {
+        padding: 10px;
         margin-bottom: 10px;
         margin-left: 50px;
         margin-right: 100px;
@@ -370,19 +379,19 @@ body {
         font-size: 12px;
     }
 
-    .content:first-child {
+    #select {
         margin: 20px;
         margin-left: 4px;
         margin-right: 4px;
-        font-size: 12px;
+        font-size: 11px;
         color: white
     }
     
-    .content:second-child {
+    #content {
         margin: 2px;
         margin-left: 4px;
         margin-right: 4px;
-        font-size: 12px;
+        font-size: 11px;
         color: white
     }
 
