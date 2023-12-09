@@ -10,13 +10,12 @@ displayObject(glossary);
  * @returns {} 用語集の単語(key)と内容(value)を表示
  */
 function displayObject(object) {
-    const activeArea = document.getElementById("activeArea");
+    const ulElement = document.getElementsByTagName("ul")[0];
 
     for (let key in object) {
-        let newElement = document.createElement("ul"); 
-        newElement.innerHTML = "<li><strong>" + key + ":</strong>\t" + object[key] + "</li>";
-        activeArea.appendChild(newElement);
-
+        let newElement = document.createElement("li");
+        newElement.innerHTML = "<strong>" + key + ":</strong>\t" + object[key];
+        ulElement.appendChild(newElement);
         addEvent(newElement, 0.2);
     }
 }
