@@ -29,9 +29,10 @@ function createButtons(object) {
  * @returns {} 単語と内容を表示
  */
 function display(key, value) {
-    const content = document.getElementsByClassName("content");
-    content[0].innerText = `Select:\t${key}`;
-    content[1].innerText = `Content:\t${value}`;
+    const select = document.getElementById("select");
+    const content = document.getElementById("content");
+    select.innerText = `Select:\t${key}`;
+    content.innerText = `Content:\t${value}`;
 
     // imgEvent.js 対応
     if (!imgState){
@@ -45,7 +46,8 @@ function display(key, value) {
  * @returns {} 単語と内容を消去
  */
 function buttonClear(){
-    const content = document.getElementsByClassName("content");
-    content[0].innerText = "Select:\t";
-    content[1].innerText = "Content:\t";
+    const select = document.getElementById("select");
+    const content = document.getElementById("content");
+    select.innerText = "Select:\t";
+    content.innerText = "Content:\t";
 }
