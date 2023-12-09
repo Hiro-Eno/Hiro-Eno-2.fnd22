@@ -380,6 +380,7 @@ body {
     }
 
     #select {
+        padding: 0px;
         margin: 20px;
         margin-left: 4px;
         margin-right: 4px;
@@ -388,6 +389,8 @@ body {
     }
     
     #content {
+        padding: 0px;
+        margin: 0px;
         margin-left: 4px;
         margin-right: 4px;
         font-size: 11px;
