@@ -365,7 +365,9 @@ body {
     }
 
     li {
-        margin-bottom: 3px;
+        margin: 1px;
+        margin-bottom: 8px;
+        font-size: 12px;
     }
 
     .content {
