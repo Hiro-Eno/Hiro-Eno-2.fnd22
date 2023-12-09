@@ -23,7 +23,7 @@ let bonusScore = 5;
 let bonusScoreCopy = bonusScore;
 let countBonus = 0
 const countBonusMax = 4;
-const scoreSymbol = "🌟🌟🌟🌟🌞🐭🐮🐯🐰🐲🐍🐗🐴🐑🐵🐔🐶🐗🦘🐘🐳🐬🐧🦚🦉👻";
+const scoreSymbol = "🌟🌟🌟🌟🌞🐭🐮🐯🐰🐲🐍🐗🐴🐑🐵🐔🐶🌞👽🌞🍒🍓🍇🍊🍅🍎🍏🍑🍍🍈🍉🌞💩🌞🌸🌷🌹🌻🌺🌾🍁🌞🛸🌞🎍🎎🎏🎑🎃🎄🌞👾🌞🦘🐘🐳🐬🐧🦚🦉🌞👻";
 
 // 復習の変数宣言
 let reviewNum = 0;
@@ -37,7 +37,6 @@ let quizKeysCopy = [];
 
 // 問題総キーの配列作成
 const quizAllKeys = Object.keys(glossary);
-
 
 // htmlコールバック関数の作成
 const displayButtonNext = makeDisplay("buttonNext");
@@ -99,7 +98,7 @@ function makeAnswerButton(answer){
  */
 function checkAnswer(array, key, num){
     if (checkDoubleAnswer){
-        displayQuizResult1(`次を押してください`);
+        displayQuizResult1("次を押してください");
         displayQuizResult2("");
         return;
     }
@@ -118,7 +117,13 @@ function checkAnswer(array, key, num){
         displayQuizCount(`第 ${quizTotalCount} 問 (${quizTotalCount} 問中 ${quizCorrectNum} 問 正解) ${reviewComment}`);
         displayScore(`スコア ${score} 点`);
         displayScoreSymbol(`${scoreSymbol.slice(0, scoreSymbolNum)}`);
-        displayQuizResult1(`正解! ${getScore} 点 獲得!!`);
+        let getScoreSymbol = "!";
+        if (getScore >= 30) {
+            getScoreSymbol = "!!!";
+        } else if (getScore >= 20) {
+            getScoreSymbol = "!!"
+        }
+        displayQuizResult1(`正解! ${getScore} 点 獲得${getScoreSymbol}`);
 
     } else {
         score += minusScore; // score減点
@@ -144,8 +149,10 @@ function checkAnswer(array, key, num){
  * @return {num} スコアシンボル数の計算結果を返す 
  */
 function countScoreSymbol(score){
-    if (score > 0) {
-        return Math.floor((score / 100) / (Math.floor((quizNum - 1) / 50) + 1)) * 2;
+    if (score > 2000) {
+        return Math.floor((score / 200)) * 2 + 20;
+    } else if (score > 0) {
+        return Math.floor((score / 100)) * 2
     }
     return 0;
 }
@@ -378,7 +385,7 @@ function buttonEnd(){
     document.getElementById("inputNum").value = "";
     document.getElementById("inputNum").style.display = "inline";
     document.getElementById("buttonNext").style.display = "initial";
-    displayButtonNext("問題数入力");
+    displayButtonNext("開始");
  
     quizNum = 0;
 }
