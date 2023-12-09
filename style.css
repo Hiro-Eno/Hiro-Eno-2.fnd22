@@ -372,18 +372,18 @@ body {
 
     .content {
         padding: 1px;
-        margin-bottom: 1px;
         margin-left: 4px;
         margin-right: 4px;
         font-size: 12px;
         color: white
     }
     .content:first-child {
-        margin: 16px;
+        margin: 20px;
     }
     .content:second-child {
         margin: 2px;
     }
+
 
     input {
         font-size: 12px;
