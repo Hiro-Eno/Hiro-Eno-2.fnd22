@@ -1,12 +1,19 @@
 `use strict`
 
 let imgState = false;
+let imgOnOffState = "on"
 let eventRatio = 0.2;
 let mouseCount = 0;
 
 let omikujiState = false;
 let omikujiRatio = 0.3;
 let omikujiUpDown = 1;
+
+
+// titleクリックによるimgのon/offをセット
+const title = document.getElementsByTagName("h1")[0];
+title.addEventListener("click", imgOnOff);
+imgOnOff();
 
 /**
  * @param {(element, num)} element, eventRatio オブジェクトの要素とイベント発生の割合
@@ -134,6 +141,32 @@ function flashImgQuiz(){
     imgState = true;
     omikujiState = true;
 }
+
+/**
+ * @param {} titleクリックで起動
+ * @returns {} imgのon/off 
+ */
+function imgOnOff(){
+    if(imgOnOffState === "on"){
+        imgOnOffState = "off";
+        document.getElementById("imgPC").style.display = "none";
+        document.getElementById("imgBackground").style.display = "none";
+        document.getElementById("scoreSymbol").style.display = "none";
+    } else {
+        imgOnOffState = "on";
+        document.getElementById("imgPC").src = "character_program.png";
+        document.getElementById("imgPC").style.display = "inline";
+        document.getElementById("imgBackground").style.display = "inline";
+        document.getElementById("scoreSymbol").style.display = "inline";
+    }
+    const omikuji = document.getElementById("imgOmikuji")
+    if (omikuji.style.display === "inline") {
+        document.getElementById("imgOmikuji").style.display = "none";
+    }
+
+    
+}
+
 
 // 試作
 /**
