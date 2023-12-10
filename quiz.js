@@ -81,7 +81,7 @@ function makeDisplay(id) {
  */
 function makeAnswerButton(answer){
     const func = function(){
-        if (checkEnd === false){
+        if (!checkEnd){
             checkAnswer(choices, correctAnswer, answer);
         }
     }
@@ -97,9 +97,7 @@ function makeAnswerButton(answer){
  * @return {} 答え合わせの結果をコンソールに表示
  */
 function checkAnswer(array, key, num){
-    if (checkDoubleAnswer){
-        displayQuizResult1("次を押してください");
-        displayQuizResult2("");
+    if (checkEnd || checkDoubleAnswer){
         return;
     }
 
@@ -167,7 +165,7 @@ function countScoreSymbol(score){
  */
 function buttonNext(){
     // imgPCの初期化
-    changeImg("");
+    changeImgQuiz("");
 
     // 問題数入力の確認と初期化（問題オブジェクト作成、各種変数初期化）
     if (quizNum === 0){
@@ -226,7 +224,7 @@ function buttonNext(){
  * @return {} 問題オブジェクト作成、各種変数初期化
  */
 function initialize(){
-    changeImg("");
+    changeImgQuiz("");
 
     document.getElementById("inputNum").style.display = "none";
     quizKeys = selectQuizKeys(quizAllKeys, quizNum);
@@ -274,8 +272,7 @@ function quizReport(){
     if(wrongQuizzes.length === 0) {
         displayQuizResult2(`全出題 ${quizNum}  問回答終了!!! 出題問題は下記の通りです。`); 
         displayQuizResult3(`出題問題: ${quizKeysCopy}`); 
-        checkEnd = true;
-        changeImg("complete");
+        changeImgQuiz("complete");
         displayButtonNext("再出題");
         quizNum = 0;
 
@@ -293,8 +290,8 @@ function quizReport(){
         displayQuizResult3(`誤答: ${wrongQuizzes}`);
         displayButtonNext("復習");
         quizCount = 0;
-        checkEnd = true;
     }
+    checkEnd = true;
 }
 
 
@@ -317,7 +314,7 @@ function review(){
     checkEnd = false;
     reviewComment = ` (復習回数 ${reviewNum} 回目)`
 
-    flashImgQuiz();
+    changeImgQuizReview();
 }
 
 
@@ -366,7 +363,7 @@ function displayQuizChoices(array, key) {
  * @returns {} 終了ボタンのアクション（初期状態に戻す）
  */
 function buttonEnd(){
-    changeImg("retired");
+    changeImgQuiz("retired");
 
     displayQuizCount("");
     displayScore(""); 
@@ -392,13 +389,13 @@ function buttonEnd(){
 
 
 
-// changeImg (word)
+// changeImgQuiz (word)
 // imgPCの修正
 /**
  * @param {string} word imgPCの情報
  * @returns {} imgPCの修正
  */
-function changeImg (word){
+function changeImgQuiz (word){
     const img = document.getElementById("imgPC");
     if (word === "complete"){
         img.src = "character_program_happy.png";
