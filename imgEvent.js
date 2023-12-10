@@ -147,6 +147,7 @@ function flashImgQuiz(){
  * @returns {} imgのon/off 
  */
 function imgOnOff(){
+    document.getElementById("imgOmikuji").style.display = "none";
     if(imgOnOffState === "on"){
         imgOnOffState = "off";
         document.getElementById("imgPC").style.display = "none";
@@ -159,12 +160,6 @@ function imgOnOff(){
         document.getElementById("imgBackground").style.display = "inline";
         document.getElementById("scoreSymbol").style.display = "inline";
     }
-    const omikuji = document.getElementById("imgOmikuji")
-    if (omikuji.style.display === "inline") {
-        document.getElementById("imgOmikuji").style.display = "none";
-    }
-
-    
 }
 
 
