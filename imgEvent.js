@@ -21,7 +21,7 @@ imgOnOff();
  */
 function addEvent (element, eventRatio){
     element.addEventListener("mouseout", baseImg);
-    element.addEventListener("click", changeImg);
+    element.addEventListener("click", changeImgQuiz);
     if (Math.random() <= eventRatio){
         element.addEventListener("mouseenter", flashImg);
     }
@@ -80,7 +80,10 @@ function baseImg(){
 /**
  * @returns {} 要素をクリックした時にimgを変更 
  */
-function changeImg (){
+function changeImgQuiz (){
+    // if(imgOnOffState === "off") {
+    //     return "";
+    // }
     if(imgState && omikujiState){
         omikuji();
         imgState = false;
@@ -96,6 +99,9 @@ function changeImg (){
  * @returns {} おみくじを実行 
  */
 function omikuji (){
+    if(imgOnOffState === "off") {
+        return "";
+    }
     let randomNum = Math.random();
     if (randomNum < omikujiRatio){
         const img = document.getElementById("imgOmikuji");
@@ -120,9 +126,9 @@ function omikuji (){
 }
 
 /**
- * @returns {} 要素にマウスが侵入した時にimgを変更(クイズ終了時用)
+ * @returns {} クイズ復習時にimgを変更
  */
-function flashImgQuiz(){
+function changeImgQuizReview(){
     let imgPC = "";
     let randomNum = Math.random();
     if (randomNum < 0.3){
