@@ -23,7 +23,7 @@ let bonusScore = 5;
 let bonusScoreCopy = bonusScore;
 let countBonus = 0
 const countBonusMax = 4;
-const scoreSymbol = "🌟🌟🌟🌟🌞🐭🐮🐯🐰🐲🐍🐗🐴🐑🐵🐔🐶🌞👽🌞🍒🍓🍇🍊🍅🍎🍏🍑🍍🍈🍉🌞💩🌞🌸🌷🌹🌻🌺🌾🍁🌞🛸🌞🎍🎎🎏🎑🎃🎄🌞👾🌞🦘🐘🐳🐬🐧🦚🦉🌞👻";
+const scoreSymbol = "🌟🌟🌟🌟🌞🐭🐮🐯🐰🐲🐍🐗🐴🐑🐔🐶🐵🌞👽🌞🍒🍓🍇🍊🍅🍎🍏🍑🍍🍈🍉🌞💩🌞🌸🌷🌹🌻🌺🌾🍁🌞🛸🌞🎍🎎🎏🎑🎃🎄🌞👾🌞🦘🐘🐳🐬🐧🦚🦉🌞👻";
 
 // 復習の変数宣言
 let reviewNum = 0;
