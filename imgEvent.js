@@ -158,15 +158,20 @@ function imgOnOff(){
         imgOnOffState = "off";
         document.getElementById("imgPC").style.display = "none";
         document.getElementById("imgBackground").style.display = "none";
-        document.getElementById("scoreSymbol").style.display = "none";
+        if(document.getElementById("scoreSymbol") != null){
+            document.getElementById("scoreSymbol").style.display = "none";
+        }
     } else {
         imgOnOffState = "on";
         document.getElementById("imgPC").src = "character_program.png";
         document.getElementById("imgPC").style.display = "inline";
         document.getElementById("imgBackground").style.display = "inline";
-        document.getElementById("scoreSymbol").style.display = "inline";
+        if(document.getElementById("scoreSymbol") != null){
+            document.getElementById("scoreSymbol").style.display = "inline";
+        }
     }
 }
+
 
 
 // 試作
