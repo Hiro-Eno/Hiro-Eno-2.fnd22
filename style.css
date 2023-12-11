@@ -138,6 +138,7 @@ body {
         width: 210px;
         top: 4px;
         right: 6px;
+        display: inline;
         z-index: 1;
         border-radius: 25% 15% / 15% 35%;
     }
@@ -147,6 +148,7 @@ body {
         width: 100px;
         top: 15px;
         right: 27px;
+        display: inline;
         z-index: 2;
     }
 
@@ -340,6 +342,7 @@ body {
         width: 104px;
         top: 2px;
         right: 3px;
+        display: inline;
         z-index: 1;
         border-radius: 25% 15% / 15% 35%;
     }
@@ -349,6 +352,7 @@ body {
         width: 50px;
         top: 8px;
         right: 12px;
+        display: inline;
         z-index: 2;
     }
 
