@@ -1,32 +1,21 @@
-<!DOCTYPE html>
-<html lang="ja">
+`use strict`
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="theme-color" content="#000000">
-    <link rel="stylesheet" type="text/css" href="style.css"/> 
-</head>
+// imgPC.jsで宣言済み
+imgPC = "character_program_happy.png";
 
-<body>
-    <div id="fixArea">
-        <nav>
-            <button class= "buttonURL" onclick="window.location.href='list.html'">リスト</button>
-            <button class= "buttonURL" onclick="window.location.href='index.html'">インデックス</button>
-            <button class= "buttonURL" onclick="window.location.href='search.html'">検索</button>
-            <button class= "buttonURL" onclick="window.location.href='quiz.html'">クイズ</button>
-        </nav>
-        <h1>Ai Glossary Index</h1>
-        <img id="imgOmikuji" src="omikuji_daikichi.png">
-        <img id="imgPC" src="character_program.png">
-        <img id="imgBackground" src="bg_moon_getsumen_earth.jpg">
-        <p id="select">Select:</p>
-        <p id="content">Content:</p>
-        <button id="buttonClear" onclick="buttonClear()">クリア</button>
-    </div>
-    <div id="indexArea"></div>
-</body>
-<script type="text/javascript" src="Ai.js"></script>
-<script type="text/javascript" src="imgEvent.js"></script>
-<script type="text/javascript" src="index.js"></script>
-</html>
+displayObject(glossary);
+
+/**
+ * @param {object} object 用語集(glossary)
+ * @returns {} 用語集の単語(key)と内容(value)を表示
+ */
+function displayObject(object) {
+    const ulElement = document.getElementsByTagName("ul")[0];
+
+    for (let key in object) {
+        let newElement = document.createElement("li");
+        newElement.innerHTML = "<strong>" + key + ":</strong>\t" + object[key];
+        ulElement.appendChild(newElement);
+        addEvent(newElement, 0.2);
+    }
+}
