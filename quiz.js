@@ -1,42 +1,41 @@
 `use strict`
 
-// 問題数の変数宣言
+// クイズ数の変数宣言
 let quizNum = 0;
 const choicesNum = 3;
 
-// 問題の変数宣言
+// クイズキーの変数宣言
+let quizKeys = [];
+let quizKeysCopy = [];
+
+// クイズ回答の変数宣言
 let choices = [];
 let correctAnswer = "";
-
-// 問題回答の変数宣言
 let quizCount = 0;
 let quizTotalCount = 0;
 let quizCorrectNum = 0;
 let wrongQuizzes = [];
 let checkDoubleAnswer = false; 
 
-// スコア数の変数宣言
+// スコアの変数宣言
 let score = 0;
 const plusScore = 10;
 const minusScore = 0;
 let bonusScore = 5;
 let bonusScoreCopy = bonusScore;
-let countBonus = 0
+let countBonus = 0;
 const countBonusMax = 4;
-const scoreSymbol = "🌟🌟🌟🌟🌞🐭🐮🐯🐰🐲🐍🐗🐴🐑🐔🐶🐵🌞👽🌞🍒🍓🍇🍊🍅🍎🍏🍑🍍🍈🍉🌞💩🌞🌸🌷🌹🌻🌺🌾🍁🌞🛸🌞🎍🎎🎏🎑🎃🎄🌞👾🌞🦘🐘🐳🐬🐧🦚🦉🌞👻";
+const scoreSymbol = "🌟🌟🌟🌟🌞🐭🐮🐯🐰🐲🐍🐴🐑🐵🐔🐶🐗🌞👽🌞🍒🍓🍇🍊🍅🍎🍏🍑🍍🍈🍉🌞💩🌞🌸🌷🌹🌻🌺🌾🍁🌞🛸🌞🎍🎎🎏🎑🎃🎄🌞👾🌞🦘🐘🐳🐬🐧🦚🦉🌞👻";
 
 // 復習の変数宣言
 let reviewNum = 0;
 let checkEnd = false;
 let reviewComment = "";
 
-// 問題キーの変数宣言
-let quizKeys = [];
-let quizKeysCopy = [];
 
-
-// 問題総キーの配列作成
+// クイズ総キーの配列作成
 const quizAllKeys = Object.keys(glossary);
+
 
 // htmlコールバック関数の作成
 const displayButtonNext = makeDisplay("buttonNext");
@@ -59,7 +58,7 @@ const button3 = makeAnswerButton(3);
 // 以下、コールバック関数関係
 
 // makeDisplay(id)
-// idのエレメントのテキストを修正するコールバック関数の作成
+// idのテキストを修正するコールバック関数の作成
 /**
  * @param {string} id テキストを修正したいエレメントのid
  * @return {function} func テキスト修正するコールバック関数を返す
@@ -74,10 +73,10 @@ function makeDisplay(id) {
 
 
 // makeAnswerButton(value)
-// answerのエレメントのボタンのアクションに関するコールバック関数の作成
+// answerボタンのアクションに関するコールバック関数の作成
 /**
- * @param {string} answer ボタンのidと返り値
- * @return {function} func ボタンの返り値を返すコールバック関数を返す
+ * @param {string} answer ボタンidの番号
+ * @return {function} func ボタンをクリックした時に実行するコールバック関数を返す
  */
 function makeAnswerButton(answer){
     const func = function(){
@@ -89,21 +88,25 @@ function makeAnswerButton(answer){
 }
 
 // checkAnswer(choices, correctAnswer, answer)
-// 答え合わせ
+// 回答ボタンがクリックされた時のアクション
 /**
- * @param {array} array 回答欄配列 choices
- * @param {string} key 正解キー correctAnswer
- * @param {number} num 回答番号 answer
- * @return {} 答え合わせの結果をコンソールに表示
+ * @param {array} array 回答ボタンの配列 choices
+ * @param {string} key 正解のキー correctAnswer
+ * @param {number} num クリックした回答ボタンの番号 answer
+ * @return {} 回答ボタンがクリックされた時のアクション（答え合わせ等）
  */
 function checkAnswer(array, key, num){
+    // 回答済み後に回答ボタンをクリックした時の無効化
     if (checkEnd || checkDoubleAnswer){
         return;
     }
 
+    // scoreSymbolNumの初期化
     let scoreSymbolNum = 0;
 
+    // 回答が正解(if)と不正解(else)の時のアクション 
     if (array[num - 1] === key) {
+        // score、scoreSymbolNum、quizCorrectNum、countBonusの計算
         let getScore = plusScore + bonusScore * countBonus;
         score += getScore; // score加算
         scoreSymbolNum = countScoreSymbol(score);
@@ -112,6 +115,7 @@ function checkAnswer(array, key, num){
             countBonus ++;
         }
 
+        // 結果の表示
         displayQuizCount(`第 ${quizTotalCount} 問 (${quizTotalCount} 問中 ${quizCorrectNum} 問 正解) ${reviewComment}`);
         displayScore(`スコア ${score} 点`);
         displayScoreSymbol(`${scoreSymbol.slice(0, scoreSymbolNum)}`);
@@ -124,33 +128,41 @@ function checkAnswer(array, key, num){
         displayQuizResult1(`正解! ${getScore} 点 獲得${getScoreSymbol}`);
 
     } else {
+        // score、scoreSymbolNumの計算（デフォルトは減点無し）
         score += minusScore; // score減点
         scoreSymbolNum = countScoreSymbol(score);
 
+        // countBonusの初期化、誤答をwrongQuizzes配列に追加
         countBonus = 0;
         wrongQuizzes.push(key);
+
+        // 結果の表示
         displayQuizCount(`第 ${quizTotalCount} 問 (${quizTotalCount} 問中 ${quizCorrectNum} 問 正解) ${reviewComment}`);
         displayScore(`スコア ${score} 点`);
         displayScoreSymbol(`${scoreSymbol.slice(0, scoreSymbolNum)}`);
         displayQuizResult1(`残念! 正解は 「${key}」`);
         displayQuizResult2(`「${array[num - 1]}」 ⇒\t${glossary[array[num - 1]]}`);
     }
+
+    // 回答済み状態の解除
     checkDoubleAnswer = true;
-    
+
+    // buttonNextの表示の初期化    
     document.getElementById("buttonNext").style.display = "initial";
 }
 
 // countScoreSymbol(score)
-// スコアシンボルの計算
+// スコアシンボル数の計算
 /**
  * @param {number} score 回答 score
- * @return {num} スコアシンボル数の計算結果を返す 
+ * @return {num} スコアシンボル数（scoreSymbolの表示する文字数）の計算結果を返す
  */
 function countScoreSymbol(score){
+    // scoreが2000点までは100点単位、2000点以上は100点単位で追加
     if (score > 2000) {
         return Math.floor((score / 200)) * 2 + 20;
     } else if (score > 0) {
-        return Math.floor((score / 100)) * 2
+        return Math.floor((score / 100)) * 2;
     }
     return 0;
 }
@@ -161,32 +173,32 @@ function countScoreSymbol(score){
 // buttonNext()
 // buttonNextボタンの実行
 /**
- * @return {} buttonNextボタンの実行
+ * @return {} buttonNextボタンの実行（クイズ数入力、
  */
 function buttonNext(){
-    // imgPCの初期化
+    // imgPCの初期化、buttonEndの表示
     changeImgQuiz("");
+    document.getElementById("buttonEnd").style.display = "inline";
 
-    // 問題数入力の確認と初期化（問題オブジェクト作成、各種変数初期化）
+    // クイズ数入力の確認と初期化（クイズオブジェクト作成、各種変数初期化）
     if (quizNum === 0){
         quizNum = Number(document.getElementById("inputNum").value);
         if (quizNum > 0 && Number.isInteger(quizNum) && quizNum <= quizAllKeys.length){
             initialize();
         } else {
             quizNum = 0;
-            displayQuiz(`問題数は 1 ～ ${quizAllKeys.length} (最大問題数) の整数を入力ください`)
+            displayQuiz(`クイズ数は 1 ～ ${quizAllKeys.length} (最大クイズ数) の整数を入力ください`);
             return "";
         }
     }
 
-    // ボタンの表示
+    // 回答ボタンの表示
     const buttonQuiz = document.getElementsByClassName("buttonQuiz");
     for (i = 0; i < buttonQuiz.length;i ++){
         buttonQuiz[i].style.display = "inline";
     }
-    document.getElementById("buttonEnd").style.display = "inline";
 
-    // 全問出題していればレポート表示
+    // 全クイズを出題が終わっていればレポートを表示
     if (quizCount === quizKeys.length){
         quizReport();
         if (quizNum === 0){
@@ -194,26 +206,26 @@ function buttonNext(){
         }
     }
 
-    // 復習する場合、復習の実行
+    // 復習する場合（checkEnd = true：ボタンは「復習」を表示）、復習の実行
     if (checkEnd){
         review();
         return "";
     }
 
-    // ボタンを次に修正、回答ボタンの2度押し制限解除
+    // ボタンに「次」を表示、回答ボタンの回答済み状態の解除
     displayButtonNext("次");
     checkDoubleAnswer = false;
 
-    // スコア表示
+    // クイズを抽出（正解キーの抽出）
     correctAnswer = quizKeys[quizCount];
+
+    // クイズ数をカウント、表示
     quizCount ++;
     quizTotalCount ++;
     displayQuizCount(`第 ${quizTotalCount} 問 (${quizTotalCount - 1} 問中 ${quizCorrectNum} 問 正解) ${reviewComment}`);
 
-    // 選択肢の作成
+    // 回答ボタンの作成、表示
     choices = makeChoices(correctAnswer);
-
-    // 選択肢の表示
     displayQuizChoices(choices, correctAnswer);
 }
 
@@ -221,7 +233,7 @@ function buttonNext(){
 // initialize()
 // 初期化
 /**
- * @return {} 問題オブジェクト作成、各種変数初期化
+ * @return {} クイズ配列の作成、各種変数の初期化
  */
 function initialize(){
     changeImgQuiz("");
@@ -248,11 +260,11 @@ function initialize(){
 }
 
 // selectQuizKeys(quizAllKeys, quizNum)
-// 問題キー配列の作成
+// クイズ配列の作成
 /**
- * @param {array} array 全問題キーの配列 quizAllKeys
- * @param {num} num 抽出する問題数 quizNum
- * @return {array} result 抽出した問題キーの配列を返す
+ * @param {array} array 全クイズのキー配列 quizAllKeys
+ * @param {num} num 出題するクイズ数 quizNum
+ * @return {array} result 抽出したクイズ配列を返す
  */
 
 function selectQuizKeys(array, num) {
@@ -265,16 +277,20 @@ function selectQuizKeys(array, num) {
 // quizReport
 // クイズの結果を表示
 /**
- * @return {} クイズの結果を表示、再出題 or 復習を表示
+ * @return {} クイズの結果を表示、buttonNextの表示を「再出題」or「復習」に表示。おみくじの実行
  */
 function quizReport(){
     displayQuizResult1("クイズお疲れさまでした。");
+
+    // 回答の結果を表示。buttonNextは、誤答の配列が空の場合(if)は「再出題」、誤答の配列が1以上の要素を持つ場合(else)は「復習」を表示
     if(wrongQuizzes.length === 0) {
-        displayQuizResult2(`全出題 ${quizNum}  問回答終了!!! 出題問題は下記の通りです。`); 
-        displayQuizResult3(`出題問題: ${quizKeysCopy}`); 
-        changeImgQuiz("complete");
+        displayQuizResult2(`全出題 ${quizNum}  問回答終了!!! 出題クイズは下記の通りです。`); 
+        displayQuizResult3(`出題クイズ: ${quizKeysCopy}`); 
         displayButtonNext("再出題");
-        quizNum = 0;
+        quizNum = 0
+
+        // imgPCの修正
+        changeImgQuiz("complete");
 
         // おみくじ
         omikujiRatio = 1;
@@ -291,6 +307,8 @@ function quizReport(){
         displayButtonNext("復習");
         quizCount = 0;
     }
+
+    // クイズ終了状態の表示
     checkEnd = true;
 }
 
@@ -298,50 +316,62 @@ function quizReport(){
 // review
 // 復習
 /**
- * @return {} クイズの結果を表示、再出題 or 復習を表示
+ * @return {} 誤答の配列をクイズの配列にコピー
  */
 function review(){
-    reviewNum ++;
+    // 誤答の配列をクイズの配列にコピー
     quizKeys = wrongQuizzes.slice();
     shuffling(quizKeys);
+
     // wrongQuizzesの要素が1つのときのバグ対応
     if (quizKeys.length !== wrongQuizzes.length){
         quizKeys.shift();
     }
+
+    // 復習回数のカウント
+    reviewNum ++;
+    reviewComment = ` (復習回数 ${reviewNum} 回目)`;
+
+    // 初期化
     wrongQuizzes = [];
     bonusScore = 0;
     quizCount = 0;
     checkEnd = false;
-    reviewComment = ` (復習回数 ${reviewNum} 回目)`
 
+    // imgPCの修正
     changeImgQuizReview();
 }
 
 
 // makeChoices(correctAnswer)
-// 回答欄配列の作成
+// 回答ボタンの配列の作成
 /**
  * @param {string} key 正解キー correctAnswer
- * @returns {array} result 正解1つ、残りダミーのキーをシャッフルした回答欄配列を返す
+ * @returns {array} result 正解を1つ、残りダミーのキーをシャッフルした回答ボタンの配列に返す
  */
 
 function makeChoices(key) {
+    // quizAllKeysをコピー後、正解のキーを削除し、シャッフリング
     const arrayAllKeys = quizAllKeys.slice();
     const arraykeys = arrayAllKeys.filter((x) => x !== key);
     shuffling(arraykeys);
+
+    // 回答ボタンの-1のキーを抽出後、正解のキーを追加しシャッフリング
     const result = arraykeys.slice(0, choicesNum - 1);
     result.unshift(key);
     shuffling(result);
+
+    // 回答ボタンの配列を返す
     return result;
 }
 
 
 // displayQuizAnswer(choices, correctAnswer)
-// 問題回答の表示
+// 回答ボタンの表示
 /**
- * @param {array} array 回答欄配列 choices
+ * @param {array} array 回答ボタンの配列 choices
  * @param {string} key 正解キー correctAnswer
- * @returns {} 問題と回答欄を表示、結果を消去
+ * @returns {} クイズと回答ボタンを表示、buttonNextの表示をオフ
  */
 
 function displayQuizChoices(array, key) {
@@ -356,15 +386,16 @@ function displayQuizChoices(array, key) {
 }
 
 
-
 // buttonEnd()
 // 終了ボタンのアクション
 /**
  * @returns {} 終了ボタンのアクション（初期状態に戻す）
  */
 function buttonEnd(){
+    // imgPCの修正
     changeImgQuiz("retired");
 
+    // 初期化
     displayQuizCount("");
     displayScore(""); 
     displayScoreSymbol(""); 
@@ -378,21 +409,21 @@ function buttonEnd(){
         buttonQuiz[i].style.display = "none";
     }
     document.getElementById("buttonEnd").style.display = "none";
-
     document.getElementById("inputNum").value = "";
     document.getElementById("inputNum").style.display = "inline";
     document.getElementById("buttonNext").style.display = "initial";
+
+    // buttonNextの修正
     displayButtonNext("開始");
  
     quizNum = 0;
 }
 
 
-
 // changeImgQuiz (word)
 // imgPCの修正
 /**
- * @param {string} word imgPCの情報
+ * @param {string} word 表示したいimgPCの情報
  * @returns {} imgPCの修正
  */
 function changeImgQuiz (word){
@@ -407,7 +438,6 @@ function changeImgQuiz (word){
 }
 
 
-
 // shuffling(array)
 // 配列のシャッフリング
 /**
@@ -416,16 +446,15 @@ function changeImgQuiz (word){
  */
 function shuffling(array) {
     let randomNum = 0;
-    let damy = "";
+    let temp = "";
     for (let i = 0; i < array.length * 2; i ++) {
         randomNum = Math.floor(Math.random() * (array.length - 1));
-        damy =array[randomNum];
+        temp =array[randomNum];
         array[randomNum] = array.pop();
-        array.push(damy);
+        array.push(temp);
     }
     return array;
 }
-
 
 
 // demoAnswer(choices, correctAnswer, 0.5)
