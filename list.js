@@ -3,18 +3,18 @@
 // imgPC.jsで宣言済み
 imgPC = "character_program_happy.png";
 
-displayObject(glossary);
+displayGlossary(glossary);
 
 /**
- * @param {object} object 用語集(glossary)
- * @returns {} 用語集の単語(key)と内容(value)を表示
+ * @param {array} array 用語集(glossary)
+ * @returns {} 用語集の用語(target)と内容(content)を表示
  */
-function displayObject(object) {
+function displayGlossary(array) {
     const ulElement = document.getElementsByTagName("ul")[0];
 
-    for (let key in object) {
+    for (const object of array) {
         let newElement = document.createElement("li");
-        newElement.innerHTML = "<strong>" + key + ":</strong>\t" + object[key];
+        newElement.innerHTML = "<strong>" + object.target + ":</strong>\t" + object.content;
         ulElement.appendChild(newElement);
         addEvent(newElement, 0.2);
     }
