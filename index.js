@@ -3,18 +3,18 @@
 createButtons(glossary);
 
 /**
- * @param {object} object 用語集(glossary)
- * @returns {} 用語集の単語(key)をボタンで表示
+ * @param {array} array 用語集(glossary)
+ * @returns {} 用語集の用語(target))をボタンで表示
  */
-function createButtons(object) {
+function createButtons(array) {
     const indexArea = document.getElementById("indexArea");
 
-    for (let key in object) {
+    for (const object of array) {
         const button = document.createElement("button");
-        button.innerText = key;
+        button.innerText = object.target;
         button.className = "buttonIndex";
         button.onclick = function () {
-            display(key, object[key]);
+            display(object.target, object.content);
         };
 
         addEvent(button, 0.2); // imgEvent.js 関数
@@ -24,15 +24,15 @@ function createButtons(object) {
 }
 
 /**
- * @param {string} key value ボタンを押した単語(key)
- * @param {string} key value ボタンを押した単語(key)の内容(object[key])
+ * @param {string} target ボタンを押した用語(target)
+ * @param {string} contentTarget ボタンを押した用語(target)の内容(content)
  * @returns {} 単語と内容を表示
  */
-function display(key, value) {
+function display(target, contentTarget) {
     const select = document.getElementById("select");
     const content = document.getElementById("content");
-    select.innerText = `Select:\t${key}`;
-    content.innerText = `Content:\t${value}`;
+    select.innerText = `Select:\t${target}`;
+    content.innerText = `Content:\t${contentTarget}`;
 
     // imgEvent.js 対応
     if (!imgState){
