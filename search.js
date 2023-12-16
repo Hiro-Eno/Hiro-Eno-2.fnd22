@@ -3,7 +3,7 @@
 let eraseState = false;
 
 /**
- * @returns {} 検索ワード、検索件数、検索された用語集の単語(key)と内容(value)を表示
+ * @returns {} 検索ワード、検索件数、検索された用語集の用語(target)と内容(content)を表示
  */
 function getWord() {
     // 入力処理
@@ -11,10 +11,13 @@ function getWord() {
     if(word.value === ""){
         return "";
     }
-    const object = {};
-    for (const key in glossary){
-        if (key.indexOf(word.value) > -1 || glossary[key].indexOf(word.value) > -1){
-            object[key] = glossary[key];
+    const arrayTarget = [];
+    const arrayContent = [];
+
+    for (const element of glossary){
+        if (element.target.indexOf(word.value) > -1 || element.content.indexOf(word.value) > -1){
+            arrayTarget.push(element.target);
+            arrayContent.push(element.content);
         }
     }
 
@@ -30,9 +33,9 @@ function getWord() {
     }
 
     // 検索結果を表示
-    addDisplay(word.value, Object.keys(object).length);
-    if (Object.keys(object).length > 0){
-        displayObject(object);
+    addDisplay(word.value, arrayTarget.length);
+    if (arrayTarget.length> 0){
+        displaySearchResult(arrayTarget, arrayContent);
     }
     // document.getElementById("searchResult").style.display = "inline";
 }
@@ -49,15 +52,16 @@ function addDisplay(word, num) {
 }
 
 /**
- * @param {object} object 検索された用語のオブジェクト(object)
- * @returns {} 検索された用語集の単語(key)と内容(value)を表示
+ * @param {array} array1 検索された用語の配列
+ * @param {array} array1 検索された用語の内容の配列
+ * @returns {} 検索された用語集の用語(target)と内容(content)を表示
  */
-function displayObject(object) {
+function displaySearchResult(array1, array2) {
     const newUl = document.createElement("ul"); 
 
-    for (let key in object) {
+    for (let i=0; i <array1.length; i++) {
         let newElement = document.createElement("li");
-        newElement.innerHTML = "<strong>" + key + ":</strong>\t" + object[key];
+        newElement.innerHTML = "<strong>" + array1[i] + ":</strong>\t" + array2[i];
         newElement.className = "add";
         newUl.appendChild(newElement);
         addEvent(newElement, 0.2);
