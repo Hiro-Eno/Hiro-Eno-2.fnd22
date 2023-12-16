@@ -4,9 +4,9 @@
 let quizNum = 0;
 const choicesNum = 3;
 
-// クイズキーの変数宣言
-let quizKeys = [];
-let quizKeysCopy = [];
+// クイズターゲットの変数宣言
+let quizzes = [];
+let quizTargetsCopy = [];
 
 // クイズ回答の変数宣言
 let choices = [];
@@ -33,8 +33,8 @@ let checkEnd = false;
 let reviewComment = "";
 
 
-// クイズ総キーの配列作成
-const quizAllKeys = Object.keys(glossary);
+// クイズ総ターゲットの配列作成
+const quizAllArrays = glossary.slice();
 
 
 // htmlコールバック関数の作成
@@ -91,11 +91,11 @@ function makeAnswerButton(answer){
 // 回答ボタンがクリックされた時のアクション
 /**
  * @param {array} array 回答ボタンの配列 choices
- * @param {string} key 正解のキー correctAnswer
+ * @param {string} correctAnswer 正解のターゲット correctAnswer
  * @param {number} num クリックした回答ボタンの番号 answer
  * @return {} 回答ボタンがクリックされた時のアクション（答え合わせ等）
  */
-function checkAnswer(array, key, num){
+function checkAnswer(array, correctAnswer, num){
     // 回答済み後に回答ボタンをクリックした時の無効化
     if (checkEnd || checkDoubleAnswer){
         return;
@@ -105,7 +105,7 @@ function checkAnswer(array, key, num){
     let scoreSymbolNum = 0;
 
     // 回答が正解(if)と不正解(else)の時のアクション 
-    if (array[num - 1] === key) {
+    if (array[num - 1] === correctAnswer) {
         // score、scoreSymbolNum、quizCorrectNum、countBonusの計算
         let getScore = plusScore + bonusScore * countBonus;
         score += getScore; // score加算
@@ -134,14 +134,14 @@ function checkAnswer(array, key, num){
 
         // countBonusの初期化、誤答をwrongQuizzes配列に追加
         countBonus = 0;
-        wrongQuizzes.push(key);
+        wrongQuizzes.push(correctAnswer);
 
         // 結果の表示
         displayQuizCount(`第 ${quizTotalCount} 問 (${quizTotalCount} 問中 ${quizCorrectNum} 問 正解) ${reviewComment}`);
         displayScore(`スコア ${score} 点`);
         displayScoreSymbol(`${scoreSymbol.slice(0, scoreSymbolNum)}`);
-        displayQuizResult1(`残念! 正解は 「${key}」`);
-        displayQuizResult2(`「${array[num - 1]}」 ⇒\t${glossary[array[num - 1]]}`);
+        displayQuizResult1(`残念! 正解は 「${correctAnswer}」`);
+        displayQuizResult2(`「${array[num - 1]}」 ⇒\t${glossary.filter((x) => x.target === array[num - 1])[0].content}`);
     }
 
     // 回答済み状態の解除
@@ -173,7 +173,7 @@ function countScoreSymbol(score){
 // buttonNext()
 // buttonNextボタンの実行
 /**
- * @return {} buttonNextボタンの実行（クイズ数入力、
+ * @return {} buttonNextボタンの実行（クイズ数入力）
  */
 function buttonNext(){
     // imgPCの初期化、buttonEndの表示
@@ -183,11 +183,11 @@ function buttonNext(){
     // クイズ数入力の確認と初期化（クイズオブジェクト作成、各種変数初期化）
     if (quizNum === 0){
         quizNum = Number(document.getElementById("inputNum").value);
-        if (quizNum > 0 && Number.isInteger(quizNum) && quizNum <= quizAllKeys.length){
+        if (quizNum > 0 && Number.isInteger(quizNum) && quizNum <= quizAllArrays.length){
             initialize();
         } else {
             quizNum = 0;
-            displayQuiz(`クイズ数は 1 ～ ${quizAllKeys.length} (最大クイズ数) の整数を入力ください`);
+            displayQuiz(`クイズ数は 1 ～ ${quizAllArrays.length} (最大クイズ数) の整数を入力ください`);
             return "";
         }
     }
@@ -199,7 +199,7 @@ function buttonNext(){
     }
 
     // 全クイズを出題が終わっていればレポートを表示
-    if (quizCount === quizKeys.length){
+    if (quizCount === quizzes.length){
         quizReport();
         if (quizNum === 0){
             return "";
@@ -216,8 +216,8 @@ function buttonNext(){
     displayButtonNext("次");
     checkDoubleAnswer = false;
 
-    // クイズを抽出（正解キーの抽出）
-    correctAnswer = quizKeys[quizCount];
+    // クイズを抽出（正解ターゲットの抽出）
+    correctAnswer = quizzes[quizCount].target;
 
     // クイズ数をカウント、表示
     quizCount ++;
@@ -239,9 +239,11 @@ function initialize(){
     changeImgQuiz("");
 
     document.getElementById("inputNum").style.display = "none";
-    quizKeys = selectQuizKeys(quizAllKeys, quizNum);
-    quizKeysCopy = quizKeys.slice();
-
+    quizzes = selectQuizzes(quizAllArrays, quizNum);
+    quizTargetsCopy = [];
+    for (const i of quizzes){
+        quizTargetsCopy.push(i.target);
+    }
     score = 0;
     scoreSymbolNum = 0;
     bonusScore = bonusScoreCopy;
@@ -262,12 +264,12 @@ function initialize(){
 // selectQuizKeys(quizAllKeys, quizNum)
 // クイズ配列の作成
 /**
- * @param {array} array 全クイズのキー配列 quizAllKeys
+ * @param {array} array 全クイズのターゲット配列 quizAllKeys
  * @param {num} num 出題するクイズ数 quizNum
  * @return {array} result 抽出したクイズ配列を返す
  */
 
-function selectQuizKeys(array, num) {
+function selectQuizzes(array, num) {
     const result = array.slice();
     shuffling(result);
     return result.slice(0, num);
@@ -285,7 +287,7 @@ function quizReport(){
     // 回答の結果を表示。buttonNextは、誤答の配列が空の場合(if)は「再出題」、誤答の配列が1以上の要素を持つ場合(else)は「復習」を表示
     if(wrongQuizzes.length === 0) {
         displayQuizResult2(`全出題 ${quizNum}  問回答終了!!! 出題クイズは下記の通りです。`); 
-        displayQuizResult3(`出題クイズ: ${quizKeysCopy}`); 
+        displayQuizResult3(`出題クイズ: ${quizTargetsCopy}`); 
         displayButtonNext("再出題");
         quizNum = 0
 
@@ -316,16 +318,19 @@ function quizReport(){
 // review
 // 復習
 /**
- * @return {} 誤答の配列をクイズの配列にコピー
+ * @return {} 誤答のターゲット配列からクイズの配列を作成
  */
 function review(){
-    // 誤答の配列をクイズの配列にコピー
-    quizKeys = wrongQuizzes.slice();
-    shuffling(quizKeys);
+    // 誤答のターゲット配列からクイズの配列を作成
+    quizzes = [];
+    for (const i of wrongQuizzes){
+        quizzes.push(glossary.filter((x)=> x.target === i)[0]);
+    }
+    shuffling(quizzes);
 
     // wrongQuizzesの要素が1つのときのバグ対応
-    if (quizKeys.length !== wrongQuizzes.length){
-        quizKeys.shift();
+    if (quizzes.length !== wrongQuizzes.length){
+        quizzes.shift();
     }
 
     // 復習回数のカウント
@@ -346,19 +351,22 @@ function review(){
 // makeChoices(correctAnswer)
 // 回答ボタンの配列の作成
 /**
- * @param {string} key 正解キー correctAnswer
- * @returns {array} result 正解を1つ、残りダミーのキーをシャッフルした回答ボタンの配列に返す
+ * @param {string} correctAnswer 正解ターゲット correctAnswer
+ * @returns {array} result 正解を1つ、残りダミーのターゲットをシャッフルした回答ボタンの配列に返す
  */
 
-function makeChoices(key) {
-    // quizAllKeysをコピー後、正解のキーを削除し、シャッフリング
-    const arrayAllKeys = quizAllKeys.slice();
-    const arraykeys = arrayAllKeys.filter((x) => x !== key);
-    shuffling(arraykeys);
+function makeChoices(correctAnswer) {
+    // quizAllKeysをコピー後、正解のターゲットを削除し、シャッフリング
+    const arrayCopy = quizAllArrays.slice();
+    const arrayTemp = arrayCopy.filter((x) => x.target !== correctAnswer);
+    shuffling(arrayTemp);
 
-    // 回答ボタンの-1のキーを抽出後、正解のキーを追加しシャッフリング
-    const result = arraykeys.slice(0, choicesNum - 1);
-    result.unshift(key);
+    // 回答ボタンの-1のターゲットを抽出後、正解のターゲットを追加しシャッフリング
+    const result = [];
+    for (let i = 0; i < choicesNum - 1; i++){
+        result.push(arrayTemp[i].target);
+    }
+    result.unshift(correctAnswer);
     shuffling(result);
 
     // 回答ボタンの配列を返す
@@ -370,12 +378,13 @@ function makeChoices(key) {
 // 回答ボタンの表示
 /**
  * @param {array} array 回答ボタンの配列 choices
- * @param {string} key 正解キー correctAnswer
+ * @param {string} correctAnswer 正解ターゲット correctAnswer
  * @returns {} クイズと回答ボタンを表示、buttonNextの表示をオフ
  */
 
-function displayQuizChoices(array, key) {
-    displayQuiz(glossary[key]);
+function displayQuizChoices(array, correctAnswer) {
+    const correctQuiz = glossary.filter((x) => x.target === correctAnswer)[0];
+    displayQuiz(correctQuiz.content);
     displayButton1(array[0]);
     displayButton2(array[1]);
     displayButton3(array[2]);
@@ -455,23 +464,3 @@ function shuffling(array) {
     }
     return array;
 }
-
-
-// demoAnswer(choices, correctAnswer, 0.5)
-// // 模擬回答の作成
-// /**
-//  * @param {array} array 回答欄配列 choices
-//  * @param {string} key 正解キー correctAnswer
-//  * @param {num} num 正答率加算係数
-//  * @returns {num} result 模擬回答 
-//  */
-
-// function demoAnswer(array, key, num) {
-//     let result = 0;
-//     if (Math.random() < (answerNum*num - 1) / (answerNum - 1)) {
-//         result = array.indexOf(key) + 1;
-//     } else {
-//         result = Math.floor(Math.random() * answerNum) + 1;
-//     }
-//     return result;
-// }
