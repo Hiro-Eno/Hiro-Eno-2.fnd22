@@ -328,11 +328,6 @@ function review(){
     }
     shuffling(quizzes);
 
-    // wrongQuizzesの要素が1つのときのバグ対応
-    if (quizzes.length !== wrongQuizzes.length){
-        quizzes.shift();
-    }
-
     // 復習回数のカウント
     reviewNum ++;
     reviewComment = ` (復習回数 ${reviewNum} 回目)`;
@@ -454,6 +449,9 @@ function changeImgQuiz (word){
  * @returns {array} array シャッフリングした配列（実引数の配列もシャッフリング）
  */
 function shuffling(array) {
+    if (array.length === 1){
+        return array;
+    }
     let randomNum = 0;
     let temp = "";
     for (let i = 0; i < array.length * 2; i ++) {
