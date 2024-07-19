@@ -15,7 +15,8 @@ function getWord() {
     const arrayContent = [];
 
     for (const element of glossary){
-        if (element.target.indexOf(word.value) > -1 || element.content.indexOf(word.value) > -1){
+        if (element.target.toLowerCase().indexOf(word.value.toLowerCase()) > -1 || 
+        element.content.toLowerCase().indexOf(word.value.toLowerCase()) > -1){
             arrayTarget.push(element.target);
             arrayContent.push(element.content);
         }
