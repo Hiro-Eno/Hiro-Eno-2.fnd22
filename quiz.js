@@ -66,7 +66,7 @@ const button3 = makeAnswerButton(3);
 function makeDisplay(id) {
     const func = function(word){
         let element = document.getElementById(id);
-        element.innerText = word;
+        element.innerHTML = word;
     }
     return func;
 }
