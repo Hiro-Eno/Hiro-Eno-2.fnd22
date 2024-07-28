@@ -32,7 +32,7 @@ function display(target, contentTarget) {
     const select = document.getElementById("select");
     const content = document.getElementById("content");
     select.innerText = `Select:\t${target}`;
-    content.innerText = `Content:\t${contentTarget}`;
+    content.innerHTML = `Content:\t${contentTarget}`;
 
     // imgEvent.js 対応
     if (!imgState){
@@ -49,5 +49,5 @@ function buttonClear(){
     const select = document.getElementById("select");
     const content = document.getElementById("content");
     select.innerText = "Select:\t";
-    content.innerText = "Content:\t";
+    content.innerHTML = "Content:\t";
 }
